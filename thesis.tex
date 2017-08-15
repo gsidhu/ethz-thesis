@@ -3,11 +3,11 @@
     twoside, openright, titlepage, numbers=noenddot,%
     cleardoublepage=empty,%
     abstractoff,%
-    BCOR=5.5mm, paper=a5, fontsize=10pt,% A5 soft cover
+    BCOR=5.5mm, paper=a4, fontsize=11pt,% A4 soft cover
     %BCOR=5.5mm, paper=17cm:24cm, fontsize=10pt,% 17 cm x 24 cm
     %BCOR=5mm, paper=15.59cm:23.39cm, fontsize=10pt,% Royal soft cover
     %BCOR=0mm, paper=15.24cm:22.86cm, fontsize=10pt,% US-Trade hard cover
-]{scrreprt}
+]{scrbook}
 \usepackage{etex}
 \reserveinserts{10}
 
@@ -15,9 +15,8 @@
 \usepackage[final]{pdfpages}
 
 % Bibliography
-\addbibresource[label=ownpubs]{ownpubs.bib}
-\addbibresource{bibliography.bib}
-\addbibresource{misc.bib}
+\bibliography{bibliography}
+\bibliography{misc}
 
 \begin{document}
 \frenchspacing
@@ -27,23 +26,17 @@
 \pagestyle{scrplain}
 
 %
-% Cover
-%
-% Uncomment and adapt these lines if you want to include a cover PDF.
-%
-\includepdf[pages={1,{}}]{cover/crop/cover_front.pdf}
-\cleardoublepage\setcounter{page}{1}
-
-%
 % Frontmatter
 %
 
-\include{frontbackmatter/dirtytitlepage}
-\include{frontbackmatter/titlepage}
-\include{frontbackmatter/titleback}
-\cleardoublepage\include{frontbackmatter/dedication}
-\cleardoublepage\include{frontbackmatter/abstract}
+% Create your title page in Photoshop and embed the PDF (preferred)
+\includepdf[pages={-}]{frontbackmatter/title-page.pdf}
+% or use the title.tex file to generate it in LaTeX
+%\cleardoublepage\include{frontbackmatter/title}
+
+\cleardoublepage\include{frontbackmatter/quote}
 \cleardoublepage\include{frontbackmatter/acknowledgments}
+\cleardoublepage\include{frontbackmatter/abstract}
 \pagestyle{scrheadings}
 \cleardoublepage\include{frontbackmatter/contents}
 
@@ -55,26 +48,46 @@
 \include{\dir/main}
 
 \cleardoublepage%
-\def\dir{chapters/sample-chapter}
+\def\dir{chapters/background}
 \include{\dir/main}
 
-% Include some blind text
-\Blinddocument
-
 \cleardoublepage%
-\def\dir{chapters/conclusion_outlook}
+\def\dir{chapters/chapter_name}
 \include{\dir/main}
 
-\appendix
 \cleardoublepage%
-\def\dir{chapters/appendix}
+\def\dir{chapters/abm}
+\include{\dir/main}
+
+\cleardoublepage%
+\def\dir{chapters/results}
+\include{\dir/main}
+
+\cleardoublepage%
+\def\dir{chapters/discussion}
+\include{\dir/main}
+
+\cleardoublepage%
+\def\dir{chapters/conclusion}
 \include{\dir/main}
 
 \cleardoublepage\include{frontbackmatter/bibliography}
 
-\bookmarksetup{startatroot}
-%\pagenumbering{gobble}
-\cleardoublepage\include{frontbackmatter/cv}
-\cleardoublepage\include{frontbackmatter/publications}
+% This removes the condition that forces all
+% chapters to start on an odd page.
+% Doing so makes all appendices appear one
+% after the other.
+\let\cleardoublepage\clearpage
+\appendix
+\def\dir{chapters/appendix}
+\include{\dir/main}
+\def\dir{chapters/appendix2}
+\include{\dir/main}
+\def\dir{chapters/appendix3}
+\include{\dir/main}
+\def\dir{chapters/appendix4}
+\include{\dir/main}
+
+\includepdf[pages={-}]{declaration-originality.pdf}
 
 \end{document}
